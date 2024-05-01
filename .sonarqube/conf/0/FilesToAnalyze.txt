@@ -1,0 +1,14 @@
+﻿C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Carrito.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Categoria.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Cliente.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\DashBoard.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Departamento.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\DetalleVenta.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Distrito.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Marca.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Producto.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Properties\AssemblyInfo.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Provincia.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Reporte.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Usuario.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaEntidad\Venta.cs

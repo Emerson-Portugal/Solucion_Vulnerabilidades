@@ -1,0 +1,10 @@
+﻿C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Carrito.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Categoria.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Cliente.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Marca.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Producto.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Reporte.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Ubicacion.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\CD_Usuarios.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\Conexion.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaDatos\Properties\AssemblyInfo.cs

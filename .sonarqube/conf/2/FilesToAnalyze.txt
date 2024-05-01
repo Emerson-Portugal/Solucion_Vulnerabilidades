@@ -1,0 +1,10 @@
+﻿C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Carrito.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Categoria.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Cliente.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Marca.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Producto.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Recursos.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Reporte.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Ubicacion.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\CN_Usuarios.cs
+C:\Users\Luis\Downloads\Parte_34_avance_CursoMVC\CursoMVC\CapaNegocio\Properties\AssemblyInfo.cs
