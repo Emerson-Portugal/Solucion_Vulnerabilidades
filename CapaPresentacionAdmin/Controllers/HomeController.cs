@@ -32,11 +32,9 @@ namespace CapaPresentacionAdmin.Controllers
         [HttpGet]
         public JsonResult ListarUsuarios()
         {
+            _ = new List<Usuario>();
 
-
-            List<Usuario> oLista = new List<Usuario>();
-
-            oLista = new CN_Usuarios().Listar();
+            List<Usuario> oLista = new CnUsuarios().Listar();
 
 
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
@@ -53,10 +51,10 @@ namespace CapaPresentacionAdmin.Controllers
             if (objeto.IdUsuario == 0)
             {
 
-                resultado = new CN_Usuarios().Registrar(objeto, out mensaje);
+                resultado = new CnUsuarios().Registrar(objeto, out mensaje);
             }
             else {
-                resultado = new CN_Usuarios().Editar(objeto, out mensaje);
+                resultado = new CnUsuarios().Editar(objeto, out mensaje);
             
             }
 
@@ -68,7 +66,7 @@ namespace CapaPresentacionAdmin.Controllers
             bool respuesta = false;
             string mensaje = string.Empty;
 
-            respuesta = new CN_Usuarios().Eliminar(id,out mensaje);
+            respuesta = new CnUsuarios().Eliminar(id,out mensaje);
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -80,9 +78,9 @@ namespace CapaPresentacionAdmin.Controllers
         [HttpGet]
         public JsonResult ListaReporte(string fechainicio,string fechafin,string idtransaccion)
         {
-            List<Reporte> oLista = new List<Reporte>();
+            _ = new List<Reporte>();
 
-            oLista = new CN_Reporte().Ventas(fechainicio,fechafin,idtransaccion);
+            List<Reporte> oLista = new CnReporte().Ventas(fechainicio, fechafin, idtransaccion);
 
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
         }
@@ -93,7 +91,7 @@ namespace CapaPresentacionAdmin.Controllers
 
         [HttpGet]
         public JsonResult VistaDashBoard() {
-            DashBoard objeto = new CN_Reporte().VerDashBoard();
+            DashBoard objeto = new CnReporte().VerDashBoard();
 
             return Json(new { resultado = objeto}, JsonRequestBehavior.AllowGet);
         }
@@ -102,9 +100,8 @@ namespace CapaPresentacionAdmin.Controllers
 
         [HttpPost]
         public FileResult ExportarVenta(string fechainicio, string fechafin, string idtransaccion) {
-
-            List<Reporte> oLista = new List<Reporte>();
-            oLista = new CN_Reporte().Ventas(fechainicio, fechafin, idtransaccion);
+            _ = new List<Reporte>();
+            List<Reporte> oLista = new CnReporte().Ventas(fechainicio, fechafin, idtransaccion);
 
             DataTable dt = new DataTable();
 
@@ -118,8 +115,9 @@ namespace CapaPresentacionAdmin.Controllers
             dt.Columns.Add("IdTransaccion", typeof(string));
 
 
-            foreach (Reporte rp in oLista) {
-                dt.Rows.Add(new object[] {
+            foreach (Reporte rp in oLista)
+            {
+                dt.Rows.Add(
                     rp.FechaVenta,
                     rp.Cliente,
                     rp.Producto,
@@ -127,9 +125,9 @@ namespace CapaPresentacionAdmin.Controllers
                     rp.Cantidad,
                     rp.Total,
                     rp.IdTransaccion
-                });
-            
+                );
             }
+
 
             dt.TableName = "Datos";
 

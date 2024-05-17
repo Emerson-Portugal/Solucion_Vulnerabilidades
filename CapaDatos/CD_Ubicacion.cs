@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-    public  class CD_Ubicacion
+    public  class CdUbicacion
     {
 
         public List<Departamento> ObtenerDepartamento()
@@ -19,7 +19,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     string query = "select * from DEPARTAMENTO";
@@ -68,7 +68,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     string query = "select * from provincia where IdDepartamento = @iddepartamento";
@@ -118,7 +118,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     string query = "select * from DISTRITO where IdProvincia = @idprovincia and IdDepartamento = @iddepartamento";

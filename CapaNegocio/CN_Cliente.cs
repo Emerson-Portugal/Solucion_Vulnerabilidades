@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
-    public class CN_Cliente
+    public class CnCliente
     {
-        private CD_Cliente objCapaDato = new CD_Cliente();
-
+        private readonly CdCliente objCapaDato = new CdCliente();
 
         public int Registrar(Cliente obj, out string Mensaje)
         {
-
             Mensaje = string.Empty;
 
 
@@ -57,8 +55,9 @@ namespace CapaNegocio
             }
         public Cliente ObtenerUsuario(string correo, string clave)
         {
-            return Listar().Where(item => item.Correo == correo && item.Clave == clave).SingleOrDefault();
+            return Listar().SingleOrDefault(item => item.Correo == correo && item.Clave == clave);
         }
+
         public bool ValidarUsuario(string correo, string clave, out int idCliente)
         {
             idCliente = 0;
@@ -71,54 +70,6 @@ namespace CapaNegocio
         }
     }
             
-
-
-        //public bool CambiarClave(int idcliente, string nuevaclave, out string Mensaje)
-        //{
-
-        //    return objCapaDato.CambiarClave(idcliente, nuevaclave, out Mensaje);
-        //}
-
-
-        //public bool ReestablecerClave(int idcliente, string correo, out string Mensaje)
-        //{
-        //    Mensaje = string.Empty;
-
-        //    // Obtener la contraseña actual del cliente de la base de datos
-        //    Cliente cliente = objCapaDato.Listar().FirstOrDefault(c => c.IdCliente == idcliente);
-
-        //    if (cliente == null)
-        //    {
-        //        Mensaje = "No se encontró un cliente relacionado con ese ID";
-        //        return false;
-        //    }
-
-        //    // Utilizar la contraseña existente del cliente sin cambiarla
-        //    bool resultado = objCapaDato.ReestablecerClave(idcliente, cliente.Clave, out Mensaje);
-
-        //    if (resultado)
-        //    {
-        //        // Envía el correo con la contraseña existente
-        //        string asunto = "Contraseña Restablecida";
-        //        string mensaje_correo = "<h3>Su cuenta fue restablecida correctamente</h3></br><p>Su contraseña para acceder ahora es: " + cliente.Clave + "</p>";
-
-        //        bool respuesta = CN_Recursos.EnviarCorreo(correo, asunto, mensaje_correo);
-
-        //        if (respuesta)
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            Mensaje = "No se pudo enviar el correo";
-        //            return false;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Mensaje = "No se pudo restablecer la contraseña";
-        //        return false;
-        //    }
     }
 
 

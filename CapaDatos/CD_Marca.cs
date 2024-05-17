@@ -13,7 +13,7 @@ using System.Data;
 
 namespace CapaDatos
 {
-    public class CD_Marca
+    public class CdMarca
     {
 
         public List<Marca> Listar()
@@ -23,7 +23,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     string query = "SELECT IdMarca,Descripcion,Activo FROM Marca";
@@ -65,7 +65,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarMarca", oconexion);
                     cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
@@ -97,7 +97,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EditarMarca", oconexion);
                     cmd.Parameters.AddWithValue("IdMarca", obj.IdMarca);
@@ -133,7 +133,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarMarca", oconexion);
                     cmd.Parameters.AddWithValue("IdMarca", id);
@@ -167,7 +167,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     StringBuilder sb = new StringBuilder();

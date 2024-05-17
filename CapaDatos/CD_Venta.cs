@@ -10,7 +10,7 @@ using System.Data;
 using System.Security.Cryptography;
 namespace CapaDatos
 {
-    public class CD_Venta
+    public class CdVenta
     {
         public bool Registrar(Venta obj,DataTable DetalleVenta, out string Mensaje)
         {
@@ -18,7 +18,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("usp_RegistrarVenta", oconexion);
                     cmd.Parameters.AddWithValue("IdCliente", obj.IdCliente);

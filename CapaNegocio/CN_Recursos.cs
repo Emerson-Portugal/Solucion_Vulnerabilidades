@@ -14,7 +14,7 @@ using System.IO;
 
 namespace CapaNegocio
 {
-    public class CN_Recursos
+    public static class CnRecursos
     {
 
         public static string GenerarClave() {
@@ -65,7 +65,8 @@ namespace CapaNegocio
                 resultado = true;
 
             }
-            catch (Exception ex) {
+            catch (Exception)
+            {
 
 
                 resultado = false;

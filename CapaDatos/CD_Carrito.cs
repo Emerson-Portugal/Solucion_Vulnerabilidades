@@ -10,7 +10,7 @@ using System.Data;
 using System.Globalization;
 namespace CapaDatos
 {
-     public class CD_Carrito
+     public class CdCarrito
     {
         public bool ExisteCarrito(int idcliente,int idproducto)
         {
@@ -19,7 +19,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_ExisteCarrito", oconexion);
                     cmd.Parameters.AddWithValue("IdCliente", idcliente);
@@ -34,7 +34,7 @@ namespace CapaDatos
                     resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 resultado = false;
             }
@@ -48,7 +48,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_OperacionCarrito", oconexion);
                     cmd.Parameters.AddWithValue("IdCliente", idcliente);
@@ -81,7 +81,7 @@ namespace CapaDatos
             int resultado = 0;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("select count(*) from CARRITO where idcliente =  @idcliente", oconexion);
                     cmd.Parameters.AddWithValue("@idcliente", idcliente);
@@ -90,7 +90,7 @@ namespace CapaDatos
                     resultado = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
-            catch (Exception ex)    
+            catch (Exception)
             {
                 resultado = 0;
             }
@@ -103,7 +103,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     string query = "select * from fn_obtenerCarritoCliente(@idcliente)";
                     SqlCommand cmd = new SqlCommand(query, oconexion);
@@ -149,7 +149,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarCarrito", oconexion);
                     cmd.Parameters.AddWithValue("IdCliente", idcliente);
@@ -164,7 +164,7 @@ namespace CapaDatos
                     resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 resultado = false;
             }

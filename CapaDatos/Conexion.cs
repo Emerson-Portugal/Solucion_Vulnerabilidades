@@ -8,9 +8,9 @@ using System.Configuration;
 
 namespace CapaDatos
 {
-    public class Conexion
+    public static class Conexion
     {
-        public static string cn = ConfigurationManager.ConnectionStrings["cadena"].ToString();
-
+        public static string Cn { get; } = ConfigurationManager.ConnectionStrings["cadena"].ToString();
     }
 }
+

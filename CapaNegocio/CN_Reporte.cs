@@ -11,19 +11,24 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Reporte
+    public class CnReporte
     {
-        private CD_Reporte objCapaDato = new CD_Reporte();
+        private readonly CdReporte objCapaDato;
 
-        public List<Reporte> Ventas(string fechainicio, string fechafin, string idtransaccion) {
-            return objCapaDato.Ventas(fechainicio,fechafin,idtransaccion);
+        public CnReporte()
+        {
+            objCapaDato = new CdReporte();
         }
 
+        public List<Reporte> Ventas(string fechainicio, string fechafin, string idtransaccion)
+        {
+            return objCapaDato.Ventas(fechainicio, fechafin, idtransaccion);
+        }
 
         public DashBoard VerDashBoard()
         {
             return objCapaDato.VerDashBoard();
         }
-
     }
+
 }

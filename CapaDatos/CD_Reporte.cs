@@ -13,7 +13,7 @@ using System.Globalization;
 
 namespace CapaDatos
 {
-    public class CD_Reporte
+    public class CdReporte
     {
 
         public List<Reporte> Ventas(string fechainicio, string fechafin, string idtransaccion)
@@ -23,7 +23,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
 
@@ -77,7 +77,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     SqlCommand cmd = new SqlCommand("sp_ReporteDashboard", oconexion);

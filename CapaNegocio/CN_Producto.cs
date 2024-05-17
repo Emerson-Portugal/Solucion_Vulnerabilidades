@@ -10,9 +10,15 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Producto
+    public class CnProducto
     {
-        private CD_Producto objCapaDato = new CD_Producto();
+        private readonly CdProducto objCapaDato;
+
+        public CnProducto()
+        {
+            objCapaDato = new CdProducto();
+        }
+
         public List<Producto> Listar()
         {
             return objCapaDato.Listar();
@@ -21,17 +27,15 @@ namespace CapaNegocio
 
         public int Registrar(Producto obj, out string Mensaje)
         {
-
             Mensaje = string.Empty;
-
 
             if (string.IsNullOrEmpty(obj.Nombre) || string.IsNullOrWhiteSpace(obj.Nombre))
             {
-                Mensaje = "El nombre del producto no puede ser vacio";
+                Mensaje = "El nombre del producto no puede ser vacío";
             }
             else if (string.IsNullOrEmpty(obj.Descripcion) || string.IsNullOrWhiteSpace(obj.Descripcion))
             {
-                Mensaje = "La descripcion del producto no puede ser vacio";
+                Mensaje = "La descripción del producto no puede ser vacía";
             }
             else if (obj.oMarca.IdMarca == 0)
             {
@@ -39,81 +43,59 @@ namespace CapaNegocio
             }
             else if (obj.oCategoria.IdCategoria == 0)
             {
-                Mensaje = "Debe seleccionar una categoria";
-            }
-            else if (obj.oCategoria.IdCategoria == 0)
-            {
-                Mensaje = "Debe seleccionar una categoria";
-            }
-            else if (obj.Precio == 0) {
-
-                Mensaje = "Debe ingrear el precio del producto";
-            }
-            else if (obj.Stock == 0)
-            {
-
-                Mensaje = "Debe ingrear el stock del producto";
-            }
-
-
-
-            if (string.IsNullOrEmpty(Mensaje))
-            {
-
-                return objCapaDato.Registrar(obj, out Mensaje);
-
-            }
-            else
-            {
-
-                return 0;
-            }
-
-
-
-        }
-
-        public bool Editar(Producto obj, out string Mensaje)
-        {
-
-            Mensaje = string.Empty;
-
-
-
-            if (string.IsNullOrEmpty(obj.Nombre) || string.IsNullOrWhiteSpace(obj.Nombre))
-            {
-                Mensaje = "El nombre del producto no puede ser vacio";
-            }
-            else if (string.IsNullOrEmpty(obj.Descripcion) || string.IsNullOrWhiteSpace(obj.Descripcion))
-            {
-                Mensaje = "La descripcion del producto no puede ser vacio";
-            }
-            else if (obj.oMarca.IdMarca == 0)
-            {
-                Mensaje = "Debe seleccionar una marca";
-            }
-            else if (obj.oCategoria.IdCategoria == 0)
-            {
-                Mensaje = "Debe seleccionar una categoria";
-            }
-            else if (obj.oCategoria.IdCategoria == 0)
-            {
-                Mensaje = "Debe seleccionar una categoria";
+                Mensaje = "Debe seleccionar una categoría";
             }
             else if (obj.Precio == 0)
             {
-
-                Mensaje = "Debe ingrear el precio del producto";
+                Mensaje = "Debe ingresar el precio del producto";
             }
             else if (obj.Stock == 0)
             {
-
-                Mensaje = "Debe ingrear el stock del producto";
+                Mensaje = "Debe ingresar el stock del producto";
             }
 
             if (string.IsNullOrEmpty(Mensaje))
             {
+                return objCapaDato.Registrar(obj, out Mensaje);
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
+
+        public bool Editar(Producto obj, out string Mensaje)
+        {
+            Mensaje = string.Empty;
+
+            if (string.IsNullOrEmpty(obj.Nombre) || string.IsNullOrWhiteSpace(obj.Nombre))
+            {
+                Mensaje = "El nombre del producto no puede ser vacío";
+            }
+            else if (string.IsNullOrEmpty(obj.Descripcion) || string.IsNullOrWhiteSpace(obj.Descripcion))
+            {
+                Mensaje = "La descripción del producto no puede ser vacía";
+            }
+            else if (obj.oMarca.IdMarca == 0)
+            {
+                Mensaje = "Debe seleccionar una marca";
+            }
+            else if (obj.oCategoria.IdCategoria == 0)
+            {
+                Mensaje = "Debe seleccionar una categoría";
+            }
+            else if (obj.Precio == 0)
+            {
+                Mensaje = "Debe ingresar el precio del producto";
+            }
+            else if (obj.Stock == 0)
+            {
+                Mensaje = "Debe ingresar el stock del producto";
+            }
+
+            if (string.IsNullOrEmpty(Mensaje))
+            {
                 return objCapaDato.Editar(obj, out Mensaje);
             }
             else
@@ -121,6 +103,7 @@ namespace CapaNegocio
                 return false;
             }
         }
+
 
         public bool GuardarDatosImagen(Producto obj, out string Mensaje) {
 

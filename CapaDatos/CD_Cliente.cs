@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CapaDatos
 {
-    public class CD_Cliente
+    public class CdCliente
     {
 
         public int Registrar(Cliente obj, out string Mensaje)
@@ -20,7 +20,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarCliente", oconexion);
                     cmd.Parameters.AddWithValue("Nombres", obj.Nombres);
@@ -53,7 +53,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     string query = "select IdCliente,Nombres,Apellidos,Correo,Clave from Cliente";
                     SqlCommand cmd = new SqlCommand(query, oconexion);
@@ -93,7 +93,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(Conexion.cn))
+                using (SqlConnection connection = new SqlConnection(Conexion.Cn))
                 {
                     connection.Open();
 
@@ -134,7 +134,7 @@ namespace CapaDatos
           
             Cliente cliente = null;
 
-            using (SqlConnection connection = new SqlConnection(Conexion.cn))
+            using (SqlConnection connection = new SqlConnection(Conexion.Cn))
             {
                 string query = "SELECT * FROM Cliente WHERE IdCliente = @IdCliente";
                 SqlCommand command = new SqlCommand(query, connection);
@@ -161,57 +161,6 @@ namespace CapaDatos
             return cliente;
         }
 
-        //    public bool CambiarClave(int idcliente, string nuevaclave, out string Mensaje)
-        //    {
-        //        bool resultado = false;
-        //        Mensaje = string.Empty;
-        //        try
-        //        {
-        //            using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
-        //            {
-        //                SqlCommand cmd = new SqlCommand("update cliente set clave = @nuevaclave , reestablecer = 0 where idcliente = @id", oconexion);
-        //                cmd.Parameters.AddWithValue("@id", idcliente);
-        //                cmd.Parameters.AddWithValue("@nuevaclave", nuevaclave);
-        //                cmd.CommandType = CommandType.Text;
-        //                oconexion.Open();
-        //                resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            resultado = false;
-        //            Mensaje = ex.Message;
-        //        }
-        //        return resultado;
-        //    }
-
-
-
-        //    public bool ReestablecerClave(int idcliente, string clave, out string Mensaje)
-        //    {
-        //        bool resultado = false;
-        //        Mensaje = string.Empty;
-        //        try
-        //        {
-        //            using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
-        //            {
-        //                SqlCommand cmd = new SqlCommand("update cliente set clave = @clave , reestablecer = 1 where idcliente = @id", oconexion);
-        //                cmd.Parameters.AddWithValue("@id", idcliente);
-        //                cmd.Parameters.AddWithValue("@clave", clave);
-        //                cmd.CommandType = CommandType.Text;
-        //                oconexion.Open();
-        //                resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            resultado = false;
-        //            Mensaje = ex.Message;
-        //        }
-        //        return resultado;
-        //    }
-
-        //}
     }
 
 }

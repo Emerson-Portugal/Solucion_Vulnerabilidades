@@ -31,15 +31,14 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
 
-        // ++++++++++++++++ CATEGORIA ++++++++++++++++++++
+
 
         #region CATEGORIA
         [HttpGet]
         public JsonResult ListarCategorias()
         {
-
-            List<Categoria> oLista = new List<Categoria>();
-            oLista = new CN_Categoria().Listar();
+            _ = new List<Categoria>();
+            List<Categoria> oLista = new CnCategoria().Listar();
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
 
         }
@@ -54,11 +53,11 @@ namespace CapaPresentacionAdmin.Controllers
             if (objeto.IdCategoria == 0)
             {
 
-                resultado = new CN_Categoria().Registrar(objeto, out mensaje);
+                resultado = new CnCategoria().Registrar(objeto, out mensaje);
             }
             else
             {
-                resultado = new CN_Categoria().Editar(objeto, out mensaje);
+                resultado = new CnCategoria().Editar(objeto, out mensaje);
 
             }
 
@@ -73,21 +72,21 @@ namespace CapaPresentacionAdmin.Controllers
             bool respuesta = false;
             string mensaje = string.Empty;
 
-            respuesta = new CN_Categoria().Eliminar(id, out mensaje);
+            respuesta = new CnCategoria().Eliminar(id, out mensaje);
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
 
-        // ++++++++++++++++ MARCA ++++++++++++++++++++
+
 
         #region MARCA
         [HttpGet]
         public JsonResult ListarMarca()
         {
-            List<Marca> oLista = new List<Marca>();
-            oLista = new CN_Marca().Listar();
+            _ = new List<Marca>();
+            List<Marca> oLista = new CnMarca().Listar();
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
         }
 
@@ -99,11 +98,11 @@ namespace CapaPresentacionAdmin.Controllers
 
             if (objeto.IdMarca == 0)
             {
-                resultado = new CN_Marca().Registrar(objeto, out mensaje);
+                resultado = new CnMarca().Registrar(objeto, out mensaje);
             }
             else
             {
-                resultado = new CN_Marca().Editar(objeto, out mensaje);
+                resultado = new CnMarca().Editar(objeto, out mensaje);
             }
 
             return Json(new { resultado = resultado, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
@@ -115,20 +114,20 @@ namespace CapaPresentacionAdmin.Controllers
             bool respuesta = false;
             string mensaje = string.Empty;
 
-            respuesta = new CN_Marca().Eliminar(id, out mensaje);
+            respuesta = new CnMarca().Eliminar(id, out mensaje);
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
 
-        // ++++++++++++++++ PRODUCTO ++++++++++++++++++++
+        
         #region PRODUCTO
         [HttpGet]
         public JsonResult ListarProducto()
         {
-            List<Producto> oLista = new List<Producto>();
-            oLista = new CN_Producto().Listar();
+            _ = new List<Producto>();
+            List<Producto> oLista = new CnProducto().Listar();
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
         }
 
@@ -141,9 +140,8 @@ namespace CapaPresentacionAdmin.Controllers
             string mensaje = string.Empty;
             bool operacion_exitosa = true;
             bool guardar_imagen_exito = true;
-
-            Producto oProducto = new Producto();
-            oProducto = JsonConvert.DeserializeObject<Producto>(objeto);
+            _ = new Producto();
+            Producto oProducto = JsonConvert.DeserializeObject<Producto>(objeto);
 
             decimal precio;
 
@@ -160,7 +158,7 @@ namespace CapaPresentacionAdmin.Controllers
 
             if (oProducto.IdProducto == 0)
             {
-                int idProductoGenerado = new CN_Producto().Registrar(oProducto, out mensaje);
+                int idProductoGenerado = new CnProducto().Registrar(oProducto, out mensaje);
 
                 if (idProductoGenerado != 0)
                 {
@@ -172,45 +170,37 @@ namespace CapaPresentacionAdmin.Controllers
             }
             else
             {
-                operacion_exitosa = new CN_Producto().Editar(oProducto, out mensaje);
+                operacion_exitosa = new CnProducto().Editar(oProducto, out mensaje);
             }
 
 
-            if (operacion_exitosa) {
+            if (operacion_exitosa && archivoImagen != null)
+            {
+                string ruta_guardar = ConfigurationManager.AppSettings["ServidorFotos"];
+                string extension = Path.GetExtension(archivoImagen.FileName);
+                string nombre_imagen = string.Concat(oProducto.IdProducto.ToString(), extension);
 
-                if (archivoImagen != null) {
+                try
+                {
+                    archivoImagen.SaveAs(Path.Combine(ruta_guardar, nombre_imagen));
+                }
+                catch (Exception)
+                {
+                    guardar_imagen_exito = false;
+                }
 
-                    string ruta_guardar = ConfigurationManager.AppSettings["ServidorFotos"];
-                    string extension = Path.GetExtension(archivoImagen.FileName);
-                    string nombre_imagen = string.Concat(oProducto.IdProducto.ToString(), extension);
-
-
-                    try
-                    {
-                        archivoImagen.SaveAs(Path.Combine(ruta_guardar, nombre_imagen));
-
-                    }
-                    catch (Exception ex) {
-                        string msg = ex.Message;
-                        guardar_imagen_exito = false;
-                    }
-
-
-                    if (guardar_imagen_exito)
-                    {
-
-                        oProducto.RutaImagen = ruta_guardar;
-                        oProducto.NombreImagen = nombre_imagen;
-                        bool rspta = new CN_Producto().GuardarDatosImagen(oProducto, out mensaje);
-                    }
-                    else {
-
-                        mensaje = "Se guardaro el producto pero hubo problemas con la imagen";
-                    }
-
-                
+                if (guardar_imagen_exito)
+                {
+                    oProducto.RutaImagen = ruta_guardar;
+                    oProducto.NombreImagen = nombre_imagen;
+                    new CnProducto().GuardarDatosImagen(oProducto, out mensaje);
+                }
+                else
+                {
+                    mensaje = "Se guardó el producto pero hubo problemas con la imagen";
                 }
             }
+
 
 
 
@@ -220,26 +210,35 @@ namespace CapaPresentacionAdmin.Controllers
 
 
         [HttpPost]
-        public JsonResult ImagenProducto(int id) {
+        public JsonResult ImagenProducto(int id)
+        {
+            bool conversion = false;
+            Producto oproducto = new CnProducto().Listar().Find(p => p.IdProducto == id);
 
-            bool conversion;
-            Producto oproducto = new CN_Producto().Listar().Where(p => p.IdProducto == id).FirstOrDefault();
-
-            string textoBase64 = CN_Recursos.ConvertirBase64(Path.Combine(oproducto.RutaImagen,oproducto.NombreImagen), out conversion );
-
-
-            return Json(new
+            if (oproducto != null)
             {
-                conversion = conversion,
-                textobase64 = textoBase64,
-                extension = Path.GetExtension(oproducto.NombreImagen)
+                string textoBase64 = CnRecursos.ConvertirBase64(Path.Combine(oproducto.RutaImagen, oproducto.NombreImagen), out conversion);
 
-            },
-             JsonRequestBehavior.AllowGet
-            );
-
-        
+                return Json(new
+                {
+                    conversion = conversion,
+                    textobase64 = textoBase64,
+                    extension = Path.GetExtension(oproducto.NombreImagen)
+                },
+                JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    error = "Producto no encontrado"
+                },
+                JsonRequestBehavior.AllowGet);
+            }
         }
+
+
+
 
 
         [HttpPost]
@@ -248,7 +247,7 @@ namespace CapaPresentacionAdmin.Controllers
             bool respuesta = false;
             string mensaje = string.Empty;
 
-            respuesta = new CN_Producto().Eliminar(id, out mensaje);
+            respuesta = new CnProducto().Eliminar(id, out mensaje);
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
         }

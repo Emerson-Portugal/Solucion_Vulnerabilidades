@@ -8,8 +8,6 @@ using CapaEntidad;
 using CapaNegocio;
 
 
-//using System.Web.Security;
-
 namespace CapaPresentacionAdmin.Controllers
 {
     public class AccesoController : Controller
@@ -19,10 +17,12 @@ namespace CapaPresentacionAdmin.Controllers
         {
             return View();
         }
+
         public ActionResult CambiarClave()
         {
             return View();
         }
+
         public ActionResult Reestablecer()
         {
             return View();
@@ -31,121 +31,112 @@ namespace CapaPresentacionAdmin.Controllers
         [HttpPost]
         public ActionResult Index(string correo, string clave)
         {
-            Usuario oUsuario = new Usuario();
+            var usuario = new CnUsuarios().Listar()
+                                          .Find(u => u.Correo == correo && u.Clave == CnRecursos.ConvertirSha256(clave));
 
-            oUsuario = new CN_Usuarios().Listar().Where(u => u.Correo == correo && u.Clave == CN_Recursos.ConvertirSha256(clave)).FirstOrDefault();
-
-
-            if (oUsuario == null)
+            if (usuario == null)
             {
-
                 ViewBag.Error = "Correo o contraseña no correcta";
                 return View();
             }
-            else {
-
-                if (oUsuario.Reestablecer) {
-
-                    TempData["IdUsuario"] = oUsuario.IdUsuario;
+            else
+            {
+                if (usuario.Reestablecer)
+                {
+                    TempData["IdUsuario"] = usuario.IdUsuario;
                     return RedirectToAction("CambiarClave");
-
                 }
 
-
-               //FormsAuthentication.SetAuthCookie(oUsuario.Correo, false);
-
                 ViewBag.Error = null;
-
                 return RedirectToAction("Index", "Home");
             }
         }
 
+
+
+
+
         [HttpPost]
         public ActionResult CambiarClave(string idusuario, string claveactual, string nuevaclave, string confirmarclave)
         {
+            Usuario oUsuario = new CnUsuarios().Listar().Find(u => u.IdUsuario == int.Parse(idusuario));
 
-            Usuario oUsuario = new Usuario();
+            if (oUsuario == null)
+            {
+                TempData["IdUsuario"] = idusuario;
+                ViewData["vclave"] = "";
+                ViewBag.Error = "Usuario no encontrado";
+                return View();
+            }
 
-            oUsuario = new CN_Usuarios().Listar().Where(u => u.IdUsuario == int.Parse(idusuario)).FirstOrDefault();
-
-            if (oUsuario.Clave != CN_Recursos.ConvertirSha256(claveactual))
+            if (oUsuario.Clave != CnRecursos.ConvertirSha256(claveactual))
             {
                 TempData["IdUsuario"] = idusuario;
                 ViewData["vclave"] = "";
                 ViewBag.Error = "La contraseña actual no es correcta";
                 return View();
             }
-            else if (nuevaclave != confirmarclave) {
 
+            if (nuevaclave != confirmarclave)
+            {
                 TempData["IdUsuario"] = idusuario;
                 ViewData["vclave"] = claveactual;
                 ViewBag.Error = "Las contraseñas no coinciden";
                 return View();
             }
+
             ViewData["vclave"] = "";
 
-
-            nuevaclave = CN_Recursos.ConvertirSha256(nuevaclave);
-
+            nuevaclave = CnRecursos.ConvertirSha256(nuevaclave);
 
             string mensaje = string.Empty;
-
-            bool respuesta = new CN_Usuarios().CambiarClave(int.Parse(idusuario), nuevaclave, out mensaje);
+            bool respuesta = new CnUsuarios().CambiarClave(int.Parse(idusuario), nuevaclave, out mensaje);
 
             if (respuesta)
             {
-
                 return RedirectToAction("Index");
             }
-            else {
-
+            else
+            {
                 TempData["IdUsuario"] = idusuario;
-
                 ViewBag.Error = mensaje;
                 return View();
             }
-
         }
+
+
 
 
         [HttpPost]
-        public ActionResult Reestablecer(string correo) {
+        public ActionResult Reestablecer(string correo)
+        {
+            var usuario = new CnUsuarios().Listar().Find(item => item.Correo == correo);
 
-            Usuario ousurio = new Usuario();
-
-            ousurio = new CN_Usuarios().Listar().Where(item => item.Correo == correo).FirstOrDefault();
-
-            if (ousurio == null) {
-
-
-                ViewBag.Error = "No se encontro un usuario relacionado a ese correo";
+            if (usuario == null)
+            {
+                ViewBag.Error = "No se encontró un usuario relacionado a ese correo";
                 return View();
             }
 
-
             string mensaje = string.Empty;
-            bool respuesta = new CN_Usuarios().ReestablecerClave(ousurio.IdUsuario, correo, out mensaje);
+            bool respuesta = new CnUsuarios().ReestablecerClave(usuario.IdUsuario, correo, out mensaje);
 
             if (respuesta)
             {
-
                 ViewBag.Error = null;
                 return RedirectToAction("Index", "Acceso");
-
             }
-            else {
-
+            else
+            {
                 ViewBag.Error = mensaje;
                 return View();
             }
-
-        
-        
         }
+
+
 
         public ActionResult CerrarSesion() {
 
-             //FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Acceso");
 
         }

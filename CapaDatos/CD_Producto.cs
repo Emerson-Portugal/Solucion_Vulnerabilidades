@@ -13,7 +13,7 @@ using System.Globalization;
 
 namespace CapaDatos
 {
-    public class CD_Producto
+    public class CdProducto
     {
 
         public List<Producto> Listar()
@@ -23,7 +23,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     StringBuilder sb = new StringBuilder();
@@ -81,7 +81,7 @@ namespace CapaDatos
             {
 
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarProducto", oconexion);
                     cmd.Parameters.AddWithValue("Nombre", obj.Nombre);
@@ -117,7 +117,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EditarProducto", oconexion);
                     cmd.Parameters.AddWithValue("IdProducto", obj.IdProducto);
@@ -158,7 +158,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     string query = "update producto set RutaImagen = @rutaimagen, NombreImagen = @nombreimagen where IdProducto = @idproducto";
@@ -201,7 +201,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarProducto", oconexion);
                     cmd.Parameters.AddWithValue("IdProducto", id);

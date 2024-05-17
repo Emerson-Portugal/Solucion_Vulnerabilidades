@@ -8,29 +8,29 @@ using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
-    public class CN_Ubicacion
-
+    public class CnUbicacion
     {
-        private CD_Ubicacion objCapaDato =new CD_Ubicacion();
+        private readonly CdUbicacion objCapaDato;
 
-
+        public CnUbicacion()
+        {
+            objCapaDato = new CdUbicacion();
+        }
 
         public List<Departamento> ObtenerDepartamento()
         {
             return objCapaDato.ObtenerDepartamento();
         }
 
-
-        public List<Provincia> ObtenerProvincia(string iddepartamento) {
-
+        public List<Provincia> ObtenerProvincia(string iddepartamento)
+        {
             return objCapaDato.ObtenerProvincia(iddepartamento);
         }
 
         public List<Distrito> ObtenerDistrito(string iddepartamento, string idprovincia)
         {
-
-            return objCapaDato.ObtenerDistrito(iddepartamento , idprovincia);
+            return objCapaDato.ObtenerDistrito(iddepartamento, idprovincia);
         }
-
     }
+
 }

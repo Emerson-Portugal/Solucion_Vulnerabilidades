@@ -10,12 +10,10 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Marca
+    public class CnMarca
     {
+        private readonly CdMarca objCapaDato = new CdMarca();
 
-
-
-        private CD_Marca objCapaDato = new CD_Marca();
         public List<Marca> Listar()
         {
             return objCapaDato.Listar();

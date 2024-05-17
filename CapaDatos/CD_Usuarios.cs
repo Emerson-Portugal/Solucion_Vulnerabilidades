@@ -12,7 +12,7 @@ using System.Data;
 
 namespace CapaDatos
 {
-    public class CD_Usuarios
+    public class CdUsuarios
     {
 
         public List<Usuario> Listar() {
@@ -21,7 +21,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn)) {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn)) {
 
                     string query = "select IdUsuario,Nombres,Apellidos,Correo,Clave,Reestablecer,Activo from USUARIO";
 
@@ -69,7 +69,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarUsuario", oconexion);
                     cmd.Parameters.AddWithValue("Nombres", obj.Nombres);
@@ -104,7 +104,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EditarUsuario", oconexion);
                     cmd.Parameters.AddWithValue("IdUsuario", obj.IdUsuario);
@@ -140,13 +140,13 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("delete top (1) from usuario where IdUsuario = @id", oconexion);
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.CommandType = CommandType.Text;
                     oconexion.Open();
-                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                    resultado = cmd.ExecuteNonQuery() > 0;
                 }
             }
             catch (Exception ex)
@@ -163,14 +163,14 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("update usuario set clave = @nuevaclave , reestablecer = 0 where idusuario = @id", oconexion);
                     cmd.Parameters.AddWithValue("@id", idusuario);
                     cmd.Parameters.AddWithValue("@nuevaclave", nuevaclave);
                     cmd.CommandType = CommandType.Text;
                     oconexion.Open();
-                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                    resultado = cmd.ExecuteNonQuery() > 0;
                 }
             }
             catch (Exception ex)
@@ -188,14 +188,14 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("update usuario set clave = @clave , reestablecer = 1 where idusuario = @id", oconexion);
                     cmd.Parameters.AddWithValue("@id", idusuario);
                     cmd.Parameters.AddWithValue("@clave", clave);
                     cmd.CommandType = CommandType.Text;
                     oconexion.Open();
-                    resultado = cmd.ExecuteNonQuery() > 0 ? true : false;
+                    resultado = cmd.ExecuteNonQuery() > 0;
                 }
             }
             catch (Exception ex)

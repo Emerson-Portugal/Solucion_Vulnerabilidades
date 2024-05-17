@@ -27,16 +27,12 @@ namespace CapaPresentacionTienda.Controllers
 
         public ActionResult DetalleProducto(int idproducto = 0)
         {
-
-            Producto oProducto = new Producto();
             bool conversion;
+            var oProducto = new CnProducto().Listar().Find(p => p.IdProducto == idproducto);
 
-
-            oProducto = new CN_Producto().Listar().Where(p => p.IdProducto == idproducto).FirstOrDefault();
-
-
-            if (oProducto != null) {
-                oProducto.Base64 = CN_Recursos.ConvertirBase64(Path.Combine(oProducto.RutaImagen, oProducto.NombreImagen), out conversion);
+            if (oProducto != null)
+            {
+                oProducto.Base64 = CnRecursos.ConvertirBase64(Path.Combine(oProducto.RutaImagen, oProducto.NombreImagen), out conversion);
                 oProducto.Extension = Path.GetExtension(oProducto.NombreImagen);
             }
 
@@ -45,28 +41,30 @@ namespace CapaPresentacionTienda.Controllers
 
 
 
+
+
+
         [HttpGet]
         public JsonResult ListaCategorias() {
-            List<Categoria> lista = new List<Categoria>();
-            lista = new CN_Categoria().Listar();
+            _ = new List<Categoria>();
+            List<Categoria> lista = new CnCategoria().Listar();
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult ListarMarcaporCategoria(int idcategoria)
         {
-            List<Marca> lista = new List<Marca>();
-            lista = new CN_Marca().ListarMarcaporCategoria(idcategoria);
+            _ = new List<Marca>();
+            List<Marca> lista = new CnMarca().ListarMarcaporCategoria(idcategoria);
             return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult ListarProducto(int idcategoria, int idmarca) {
-            List<Producto> lista = new List<Producto>();
-
+        public JsonResult ListarProducto(int idcategoria, int idmarca)
+        {
             bool conversion;
 
-            lista = new CN_Producto().Listar().Select(p => new Producto()
+            var lista = new CnProducto().Listar().Select(p => new Producto()
             {
                 IdProducto = p.IdProducto,
                 Nombre = p.Nombre,
@@ -76,29 +74,26 @@ namespace CapaPresentacionTienda.Controllers
                 Precio = p.Precio,
                 Stock = p.Stock,
                 RutaImagen = p.RutaImagen,
-                Base64 = CN_Recursos.ConvertirBase64(Path.Combine(p.RutaImagen, p.NombreImagen), out conversion),
+                Base64 = CnRecursos.ConvertirBase64(Path.Combine(p.RutaImagen, p.NombreImagen), out conversion),
                 Extension = Path.GetExtension(p.NombreImagen),
                 Activo = p.Activo
             }).Where(p =>
                 p.oCategoria.IdCategoria == (idcategoria == 0 ? p.oCategoria.IdCategoria : idcategoria) &&
                 p.oMarca.IdMarca == (idmarca == 0 ? p.oMarca.IdMarca : idmarca) &&
-                p.Stock > 0 && p.Activo == true
-            ).ToList();
-
+                p.Stock > 0 && p.Activo).ToList();
 
             var jsonresult = Json(new { data = lista }, JsonRequestBehavior.AllowGet);
             jsonresult.MaxJsonLength = int.MaxValue;
 
             return jsonresult;
-
-
         }
+
         [HttpPost]
         public JsonResult AgregarCarrito(int idproducto)
         {
 
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
-            bool existe = new CN_Carrito().ExisteCarrito(idcliente, idproducto);
+            bool existe = new CnCarrito().ExisteCarrito(idcliente, idproducto);
             bool respuesta = false;
             string mensaje  = string.Empty;
             if (existe)
@@ -107,7 +102,7 @@ namespace CapaPresentacionTienda.Controllers
             }
             else
             {
-                respuesta = new CN_Carrito().OperacionCarrito(idcliente, idproducto, true, out mensaje);
+                respuesta = new CnCarrito().OperacionCarrito(idcliente, idproducto, true, out mensaje);
             }
             return Json(new {respuesta =respuesta, mensaje= mensaje },JsonRequestBehavior.AllowGet);
 
@@ -116,7 +111,7 @@ namespace CapaPresentacionTienda.Controllers
         public JsonResult CantidadEnCarrito()
         {
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
-            int cantidad = new CN_Carrito().CantidadEnCarrito(idcliente);
+            int cantidad = new CnCarrito().CantidadEnCarrito(idcliente);
             return Json(new { cantidad =cantidad }, JsonRequestBehavior.AllowGet);
 
 
@@ -126,31 +121,27 @@ namespace CapaPresentacionTienda.Controllers
         public JsonResult ListarProductosCarrito()
         {
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
-            List<Carrito> oLista =new List<Carrito>();
+
             bool conversion;
-            oLista =new CN_Carrito().ListarProducto(idcliente).Select(oc => new Carrito()
+
+            var oLista = new CnCarrito().ListarProducto(idcliente).Select(oc => new Carrito()
             {
                 oProducto = new Producto()
                 {
-                    IdProducto = oc.oProducto.IdProducto, 
+                    IdProducto = oc.oProducto.IdProducto,
                     Nombre = oc.oProducto.Nombre,
-                    oMarca =oc.oProducto.oMarca,
+                    oMarca = oc.oProducto.oMarca,
                     Precio = oc.oProducto.Precio,
                     RutaImagen = oc.oProducto.RutaImagen,
-                    Base64 =CN_Recursos.ConvertirBase64 (Path.Combine(oc.oProducto.RutaImagen,oc.oProducto.NombreImagen), out conversion),
+                    Base64 = CnRecursos.ConvertirBase64(Path.Combine(oc.oProducto.RutaImagen, oc.oProducto.NombreImagen), out conversion),
                     Extension = Path.GetExtension(oc.oProducto.NombreImagen)
-
-
-
-
                 },
                 Cantidad = oc.Cantidad
-
             }).ToList();
 
             return Json(new { data = oLista }, JsonRequestBehavior.AllowGet);
-
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult OperacionCarrito(int idproducto,bool sumar)
@@ -159,7 +150,7 @@ namespace CapaPresentacionTienda.Controllers
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
             bool respuesta = false;
             string mensaje = string.Empty;
-            respuesta = new CN_Carrito().OperacionCarrito(idcliente, idproducto, true, out mensaje);
+            respuesta = new CnCarrito().OperacionCarrito(idcliente, idproducto, true, out mensaje);
 
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
@@ -170,40 +161,35 @@ namespace CapaPresentacionTienda.Controllers
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
             bool respuesta = false;
             string mensaje = string.Empty;
-            respuesta = new CN_Carrito().EliminarCarrito(idcliente, idproducto);
+            respuesta = new CnCarrito().EliminarCarrito(idcliente, idproducto);
 
             return Json(new { respuesta = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
 
 
         }
         [HttpPost]
-
         public JsonResult ObtenerDepartamento()
         {
-            List<Departamento> oLista =new List<Departamento>();
-
-            oLista = new CN_Ubicacion().ObtenerDepartamento();
+            var oLista = new CnUbicacion().ObtenerDepartamento();
 
             return Json(new { lista = oLista }, JsonRequestBehavior.AllowGet);
-
         }
+
 
         [HttpPost]
-
         public JsonResult ObtenerProvincia(string IdDepartamento)
         {
-            List<Provincia> oLista = new List<Provincia>();
-            oLista = new CN_Ubicacion().ObtenerProvincia(IdDepartamento);
+            var oLista = new CnUbicacion().ObtenerProvincia(IdDepartamento);
             return Json(new { lista = oLista }, JsonRequestBehavior.AllowGet);
-
         }
+
         [HttpPost]
 
 
         public JsonResult ObtenerDistrito(string IdDepartamento,string IdProvincia)
         {
-            List<Distrito> oLista = new List<Distrito>();
-            oLista = new CN_Ubicacion().ObtenerDistrito(IdDepartamento, IdProvincia);
+            _ = new List<Distrito>();
+            List<Distrito> oLista = new CnUbicacion().ObtenerDistrito(IdDepartamento, IdProvincia);
             return Json(new { lista = oLista }, JsonRequestBehavior.AllowGet);
 
         }
@@ -215,7 +201,7 @@ namespace CapaPresentacionTienda.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> ProcesarPago(List<Carrito> oListaCarrito, Venta oVenta)
+        public Task<JsonResult> ProcesarPago(List<Carrito> oListaCarrito, Venta oVenta)
         {
             decimal total = 0;
             DataTable detalle_venta = new DataTable();
@@ -224,26 +210,28 @@ namespace CapaPresentacionTienda.Controllers
             detalle_venta.Columns.Add("Cantidad", typeof(int));
             detalle_venta.Columns.Add("Total", typeof(decimal));
 
-            foreach(Carrito oCarrito in oListaCarrito) {
+            foreach (Carrito oCarrito in oListaCarrito)
+            {
                 decimal subtotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.oProducto.Precio;
                 total += subtotal;
 
-                detalle_venta.Rows.Add(new object[] {
+                detalle_venta.Rows.Add(
                     oCarrito.oProducto.IdProducto,
                     oCarrito.Cantidad,
                     subtotal
-
-                });
+                );
             }
-            oVenta.MontoTotal =total;
+
+            oVenta.MontoTotal = total;
             oVenta.IdCliente = ((Cliente)Session["Cliente"]).IdCliente;
             TempData["Venta"] = oVenta;
             TempData["DetalleVenta"] = detalle_venta;
-            return Json(new { Status = true ,Link ="/Tienda/PagoEfectuado?idTransaccion=code0001&status=true" }, JsonRequestBehavior.AllowGet);
 
-
+            // Return a JsonResult asynchronously
+            return Task.FromResult(Json(new { Status = true, Link = "/Tienda/PagoEfectuado?idTransaccion=code0001&status=true" }, JsonRequestBehavior.AllowGet));
         }
-        public async Task<ActionResult> PagoEfectuado()
+
+        public Task<ActionResult> PagoEfectuado()
         {
 
             string idtransaccion = Request.QueryString["idtransaccion"];
@@ -257,13 +245,13 @@ namespace CapaPresentacionTienda.Controllers
                 DataTable detalle_venta = (DataTable)TempData["DetalleVenta"];
                 oVenta.IdTransaccion = idtransaccion;
                 string mensaje = string.Empty;
-                bool respuesta = new CN_Venta().Registrar(oVenta, detalle_venta, out mensaje);
+                _ = new CnVenta().Registrar(oVenta, detalle_venta, out mensaje);
 
                 ViewData["IdTransaccion"] = oVenta.IdTransaccion;
 
 
             }
-            return View();
+            return Task.FromResult<ActionResult>(View());
 
 
         }

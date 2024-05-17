@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -97,11 +96,26 @@
                                             <label for="txttelefono" class="form-label">Telefono: </label>
                                             <input type="text" class="form-select form-select-sm" id="txttelefono" autocomplete="off">
                                         </div>
+                                        <h5 class="card-title">Detalles de Pago</h5>
+
+                                        <div class="mb-2">
+                                            <label for="txtNumeroTarjeta" class="form-label">Número de Tarjeta:</label>
+                                            <input type="text" class="form-control form-control-sm" id="txtNumeroTarjeta" autocomplete="off">
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label for="txtFechaExpiracion" class="form-label">Fecha de Expiración:</label>
+                                            <input type="text" class="form-control form-control-sm" id="txtFechaExpiracion" placeholder="MM/AA" autocomplete="off">
+                                        </div>
+
+                                        <div class="mb-2">
+                                            <label for="txtCVV" class="form-label">CVV:</label>
+                                            <input type="text" class="form-control form-control-sm" id="txtCVV" autocomplete="off">
+                                        </div>
+
                                         <div class="d-grid">
                                             <button class="btn btn-success" type="button" onclick="RealizarPago()">
                                                 <i class="fab fa-paypal"></i> Terminar y procesar Pago
-
-
                                             </button>
                                         </div>
 
@@ -118,6 +132,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 @section scripts{
 
@@ -491,7 +508,7 @@ function ListarDistrito() {
 
                },
                  beforeSend: function () {$.LoadingOverlay("show")},
-                 error: function (error) { $.LoadingOverlay("hide") }, 
+                 error: function (error) { $.LoadingOverlay("hide") },
 
 
             })
@@ -501,7 +518,7 @@ function ListarDistrito() {
 
 
     </script>
-       
-    
+
+
 }
 

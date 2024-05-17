@@ -9,16 +9,19 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Venta
-
+    public class CnVenta
     {
-        private CD_Venta objCapaDato = new CD_Venta();
+        private readonly CdVenta objCapaDato;
+
+        public CnVenta()
+        {
+            objCapaDato = new CdVenta();
+        }
 
         public bool Registrar(Venta obj, DataTable DetalleVenta, out string Mensaje)
         {
-
-            return  objCapaDato.Registrar(obj,DetalleVenta, out Mensaje);
+            return objCapaDato.Registrar(obj, DetalleVenta, out Mensaje);
         }
-
     }
+
 }

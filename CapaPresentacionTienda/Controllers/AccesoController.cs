@@ -48,7 +48,7 @@ namespace CapaPresentacionTienda.Controllers
             }
 
 
-            resultado = new CN_Cliente().Registrar(objeto, out mensaje);
+            resultado = new CnCliente().Registrar(objeto, out mensaje);
 
             if (resultado > 0)
             {
@@ -70,7 +70,7 @@ namespace CapaPresentacionTienda.Controllers
 
             // Llamar al método de negocio para validar al usuario
             int idCliente;
-            bool usuarioValido = new CN_Cliente().ValidarUsuario(correo, clave, out idCliente);
+            bool usuarioValido = new CnCliente().ValidarUsuario(correo, clave, out idCliente);
 
             if (!usuarioValido)
             {
@@ -80,7 +80,7 @@ namespace CapaPresentacionTienda.Controllers
             else
             {
                 // Obtener los datos del usuario si la validación es exitosa
-                oCliente = new CN_Cliente().ObtenerClientePorId(idCliente);
+                oCliente = new CnCliente().ObtenerClientePorId(idCliente);
 
                 if (oCliente == null)
                 {
@@ -94,40 +94,6 @@ namespace CapaPresentacionTienda.Controllers
                 return RedirectToAction("Index", "Tienda");
             }
         }
-
-
-        //[HttpPost]
-        //public ActionResult Reestablecer(string correo)
-        //{
-
-
-        //    Cliente cliente = new Cliente();
-
-        //    cliente = new CN_Cliente().Listar().Where(item => item.Correo == correo).FirstOrDefault();
-
-        //    if (cliente == null)
-        //    {
-        //        ViewBag.Error = "No se encontro un cliente relacionado a ese correo";
-        //        return View();
-        //    }
-
-
-        //    string mensaje = string.Empty;
-        // bool respuesta = new CN_Cliente().ReestablecerClave(cliente.IdCliente, correo, out mensaje);
-
-        //if (respuesta)
-        //{
-
-        //    ViewBag.Error = null;
-        //    return RedirectToAction("Index", "Acceso");
-
-        //}
-        //else
-        //{
-
-        //    ViewBag.Error = mensaje;
-        //    return View();
-        //}
 
 
     }

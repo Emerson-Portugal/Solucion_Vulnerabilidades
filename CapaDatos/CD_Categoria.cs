@@ -12,7 +12,7 @@ using System.Data;
 
 namespace CapaDatos
 {
-    public class CD_Categoria
+    public class CdCategoria
     {
 
 
@@ -24,7 +24,7 @@ namespace CapaDatos
 
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
 
                     string query = "SELECT IdCategoria,Descripcion,Activo FROM CATEGORIA";
@@ -66,7 +66,7 @@ namespace CapaDatos
             try
             {
 
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_RegistrarCategoria", oconexion);
                     cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
@@ -97,7 +97,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EditarCategoria", oconexion);
                     cmd.Parameters.AddWithValue("IdCategoria", obj.IdCategoria);
@@ -130,7 +130,7 @@ namespace CapaDatos
             Mensaje = string.Empty;
             try
             {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                using (SqlConnection oconexion = new SqlConnection(Conexion.Cn))
                 {
                     SqlCommand cmd = new SqlCommand("sp_EliminarCategoria", oconexion);
                     cmd.Parameters.AddWithValue("IdCategoria", id);

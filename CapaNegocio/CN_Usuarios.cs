@@ -9,9 +9,14 @@ using CapaEntidad;
 
 namespace CapaNegocio
 {
-    public class CN_Usuarios
+    public class CnUsuarios
     {
-        private CD_Usuarios objCapaDato = new CD_Usuarios();
+        private readonly CdUsuarios objCapaDato;
+
+        public CnUsuarios()
+        {
+            objCapaDato = new CdUsuarios();
+        }
 
         public List<Usuario> Listar() {
             return objCapaDato.Listar();
@@ -38,19 +43,19 @@ namespace CapaNegocio
             if (string.IsNullOrEmpty(Mensaje))
             {
 
-                string clave = CN_Recursos.GenerarClave();
+                string clave = CnRecursos.GenerarClave();
 
                 string asunto = "Creacion de Cuenta";
                 string mensaje_correo = "<h3>Su cuenta fue creada correctamente</h3></br><p>Su contraseña para acceder es: !clave!</p>";
                 mensaje_correo = mensaje_correo.Replace("!clave!", clave);
 
 
-                bool respuesta = CN_Recursos.EnviarCorreo(obj.Correo, asunto, mensaje_correo);
+                bool respuesta = CnRecursos.EnviarCorreo(obj.Correo, asunto, mensaje_correo);
 
                 if (respuesta)
                 {
 
-                    obj.Clave = CN_Recursos.ConvertirSha256(clave);
+                    obj.Clave = CnRecursos.ConvertirSha256(clave);
                     return objCapaDato.Registrar(obj, out Mensaje);
                 }
                 else {
@@ -114,8 +119,8 @@ namespace CapaNegocio
         {
 
             Mensaje = string.Empty;
-            string nuevaclave = CN_Recursos.GenerarClave();
-            bool resultado = objCapaDato.ReestablecerClave(idusuario,CN_Recursos.ConvertirSha256(nuevaclave), out Mensaje);
+            string nuevaclave = CnRecursos.GenerarClave();
+            bool resultado = objCapaDato.ReestablecerClave(idusuario, CnRecursos.ConvertirSha256(nuevaclave), out Mensaje);
 
             if (resultado)
             {
@@ -125,7 +130,7 @@ namespace CapaNegocio
                 mensaje_correo = mensaje_correo.Replace("!clave!", nuevaclave);
 
 
-                bool respuesta = CN_Recursos.EnviarCorreo(correo, asunto, mensaje_correo);
+                bool respuesta = CnRecursos.EnviarCorreo(correo, asunto, mensaje_correo);
 
                 if (respuesta)
                 {
