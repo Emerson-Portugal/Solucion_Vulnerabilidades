@@ -29,6 +29,7 @@ namespace CapaPresentacionAdmin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(string correo, string clave)
         {
             var usuario = new CnUsuarios().Listar()

@@ -17,5 +17,13 @@ namespace CapaPresentacionAdmin
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+
+        protected void Application_PreSendRequestHeaders()
+        {
+            Response.Headers.Remove("X-Powered-By");
+        }
+
+
     }
 }
